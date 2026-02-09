@@ -16,7 +16,7 @@ class ChessSquare extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? Colors.black : Colors.white,
+        color: isDark ? Colors.black : Colors.white54,
         border: selected
             ? Border.all(color: Colors.yellow, width: 3)
             : null,
@@ -24,10 +24,10 @@ class ChessSquare extends StatelessWidget {
       child: highlight
           ? Center(
               child: Container(
-                width: 41,
-                height: 41,
+                width: 98,
+                height: 98,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 0, 21, 255).withOpacity(0.4),
+                  color: const Color.fromARGB(255, 211, 255, 34).withOpacity(0.4),
                   shape: BoxShape.rectangle,
                 ),
               ),
