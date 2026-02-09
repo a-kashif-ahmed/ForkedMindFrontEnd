@@ -7,6 +7,7 @@ import '../logic/move_generator.dart';// Import the move generation functions
 import '../logic/fen_converter.dart'; // Import FEN converter
 import '../logic/checkmate.dart'; // Import checkmate detection
 import '../widgets/promotion.dart';
+import 'package:chess_app/fetch_fen.dart'; // Import FEN API service
 
 class ChessBoard extends StatefulWidget {
   const ChessBoard({super.key});
@@ -208,6 +209,49 @@ class _ChessBoardState extends State<ChessBoard> {
     });
   }
 
+  /// Load board state from FEN string
+  void loadBoardFromFen(String fen) {
+    try {
+      final result = fenToBoard(fen);
+      setState(() {
+        board = result.$1;
+        currentTurn = result.$2;
+        selectedIndex = null;
+        validMoves = [];
+        gameState = getGameState(board, currentTurn);
+        currentFEN = fen;
+        
+        // Recalculate captured pieces by comparing with initial board
+        capturedPieces.clear();
+        // Note: This is a simplified approach. For accurate tracking,
+        // you'd need to store captured pieces in the FEN or track them separately
+      });
+      print('Board loaded from FEN: $fen');
+    } catch (e) {
+      print('Error loading FEN: $e');
+    }
+  }
+
+  /// Fetch FEN from API and update board
+  Future<void> fetchAndLoadFen(String apiUrl) async {
+    try {
+      final fen = await FenApiService.fetchFen(apiUrl);
+      if (fen != null) {
+        loadBoardFromFen(fen);
+      } else {
+        print('Failed to fetch FEN from API');
+        // Show error message to user
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to fetch board position')),
+          );
+        }
+      }
+    } catch (e) {
+      print('Error in fetchAndLoadFen: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -248,7 +292,7 @@ class _ChessBoardState extends State<ChessBoard> {
                   border: Border.all(color: Colors.red, width: 2),
                 ),
                 child: const Text(
-                  'CHECK!',
+                  '⚠️ CHECK!',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
