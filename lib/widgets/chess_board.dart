@@ -281,8 +281,20 @@ class _ChessBoardState extends State<ChessBoard> {
         Widget capturedPiecesWidget = Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              child:  Text(
+                        'Current Turn: ${currentTurn == PieceColor.white ? "White" : "Black"}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+            ),
             // CHECK indicator
-            if (gameState == GameState.check)
+            if (gameState == GameState.check )
               Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -292,7 +304,7 @@ class _ChessBoardState extends State<ChessBoard> {
                   border: Border.all(color: Colors.red, width: 2),
                 ),
                 child: const Text(
-                  '⚠️ CHECK!',
+                  'CHECK!',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -318,7 +330,7 @@ class _ChessBoardState extends State<ChessBoard> {
                       spacing: 4,
                       runSpacing: 4,
                       children: blackCaptured.map((piece) {
-                        return Container(
+                        return SizedBox(
                           width: 24,
                           height: 24,
                           child: ChessPieceWidget(piece: piece, squareSize: 24),
@@ -347,7 +359,7 @@ class _ChessBoardState extends State<ChessBoard> {
                       spacing: 4,
                       runSpacing: 4,
                       children: whiteCaptured.map((piece) {
-                        return Container(
+                        return SizedBox(
                           width: 24,
                           height: 24,
                           child: ChessPieceWidget(piece: piece, squareSize: 24),
@@ -420,17 +432,17 @@ class _ChessBoardState extends State<ChessBoard> {
                         onTap: () => onSquareTap(index),
                         child: Stack(
                           children: [
-                            ChessSquare(isDark: isDark, highlight: isSelected),
+                            ChessSquare(isDark: isDark, highlight: isSelected ==true ? true : false),
                             if (isValidMove)
                               Center(
                                 child: Container(
-                                  width: squareSize * 0.3,
-                                  height: squareSize * 0.3,
+                                  width: squareSize * 0.9,
+                                  height: squareSize * 0.9,
                                   decoration: BoxDecoration(
                                     color: piece == null
                                         ? Colors.green.withOpacity(0.5)
                                         : Colors.red.withOpacity(0.5),
-                                    shape: BoxShape.circle,
+                                    shape: BoxShape.rectangle,
                                   ),
                                 ),
                               ),

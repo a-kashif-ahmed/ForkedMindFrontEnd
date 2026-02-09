@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../constants/colors.dart';
 
 class ChessSquare extends StatelessWidget {
   final bool isDark;
@@ -25,11 +24,11 @@ class ChessSquare extends StatelessWidget {
       child: highlight
           ? Center(
               child: Container(
-                width: 12,
-                height: 12,
+                width: 41,
+                height: 41,
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.7),
-                  shape: BoxShape.circle,
+                  color: const Color.fromARGB(255, 0, 21, 255).withOpacity(0.4),
+                  shape: BoxShape.rectangle,
                 ),
               ),
             )
